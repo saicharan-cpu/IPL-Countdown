@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
     <head>
-		<title>Scenario-1 Yield</title>
-		<link rel="stylesheet" type="text/css" href="../../../static/vendor/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../../../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="../../../static/css/main.css">
-		<link rel="stylesheet" href="../../../static/css/bootstrap.css">
-		<link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript">
-        window.history.forward();
-        function noBack() {
+        <title>Scenario-1 Yield</title>
+        <link rel="stylesheet" type="text/css" href="../../../static/vendor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../static/css/main.css">
+        <link rel="stylesheet" href="/static/css/bootstrap.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script type="text/javascript">
             window.history.forward();
-        }
-    </script>
-</head>
+            function noBack() {
+                window.history.forward();
+            }
+        </script>
+    </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
@@ -75,16 +76,17 @@
     </nav>
     <div class="banner3-w3ls"></div>
     <div style="height: 50px;"></div>
-<div class="search-container">
-    <form id="searchForm">
-        <input type="text" placeholder="Search player by name..." name="search" id="searchInput">
-        <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
+    <div class="search-container">
+        <form id="searchForm" onsubmit="event.preventDefault(); searchPlayerById();">
+            <input type="text" placeholder="Search player by name..." name="search" id="searchInput">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
 </div>
-</div>
-<script src="../../../static/vendor/jquery/jquery-3.2.1.min.js">
-		</script>
-		<script src="../../../static/vendor/tilt/tilt.jquery.min.js">
-		</script>
+<div style="height: 50px;"></div>
+<div id="playerInfo">Player details will be shown here.</div>
+ <script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/static/vendor/tilt/tilt.jquery.min.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
 </body>
 </html>

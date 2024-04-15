@@ -1,3 +1,46 @@
+/* General table styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+}
+
+/* Header styling */
+.table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Styling for each cell */
+.table th,
+.table td {
+    padding: 12px 15px;
+}
+
+/* Alternate row coloring for better readability */
+.table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+/* Hover effect for rows */
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
 
 
 body {
@@ -798,7 +841,7 @@ section.middle-w3ls img {
 }
 
 .banner3-w3ls {
-    background: url(../images/PlayerInfo/img_1.png) no-repeat center;
+    background: url(../images/PlayerInfo/img_1.png) no-repeat top center;
     background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
@@ -806,7 +849,6 @@ section.middle-w3ls img {
     -moz-background-size: cover;
     min-height: 380px;
 }
-
 
 .breadcrumb-agile {
     position: relative;
