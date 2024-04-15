@@ -60,17 +60,37 @@ def get_player_info(player_id):
 def get_matches_by_season(year):
     global db_connection, db_cursor
     db = Database(db_connection, db_cursor)
-    # need to put all the queries as constants in a separate file.
-    query = ("SELECT m.match_id,fi1.franchise_name AS Team_A_Name, fi2.franchise_name AS"+
-             " Team_B_Name, v.name AS Venue, v.location AS Location, v.seating_capacity AS Seating_Capacity,"+
-             " v.pitch_outfield AS Pitch_Outfield, m.match_date AS Date, m.scheduled_time AS Time "+
-             "FROM matches m JOIN franchise_info fi1 ON m.team_a = fi1.franchise_id JOIN franchise_info fi2"+
-             " ON m.team_b = fi2.franchise_id JOIN venue_info v ON m.venue = v.name WHERE m.season = %s")
+
+    # Adjusted query to include direct umpire references
+    query = ("""
+        SELECT 
+            m.match_id,
+            fi1.franchise_name AS Team_A_Name,
+            fi2.franchise_name AS Team_B_Name,
+            v.name AS Venue,
+            v.location AS Location,
+            v.seating_capacity AS Seating_Capacity,
+            v.pitch_outfield AS Pitch_Outfield,
+            m.match_date AS Date,
+            m.scheduled_time AS Time,
+            ui1.umpire_name AS First_Umpire,
+            ui2.umpire_name AS Second_Umpire
+        FROM 
+            matches m 
+            JOIN franchise_info fi1 ON m.team_a = fi1.franchise_id 
+            JOIN franchise_info fi2 ON m.team_b = fi2.franchise_id 
+            JOIN venue_info v ON m.venue = v.name
+            JOIN umpire_info ui1 ON m.first_umpire = ui1.umpire_id
+            JOIN umpire_info ui2 ON m.second_umpire = ui2.umpire_id
+        WHERE 
+            m.season = %s
+    """)
     data = db.execute_read_query(query, (year,))
     if data:
         results = [{'Match_ID': row[0], 'Team_A_Name': row[1], 'Team_B_Name': row[2],
                     'Venue': row[3], 'Location': row[4], 'Seating_Capacity': row[5],
-                    'Pitch_Outfield': row[6], 'Date': row[7], 'Time': row[8]} for row in data]
+                    'Pitch_Outfield': row[6], 'Date': row[7], 'Time': row[8],
+                    'First_Umpire': row[9], 'Second_Umpire': row[10]} for row in data]
         return jsonify(matches_data=results)
     else:
         return jsonify({"message": "Matches info not found for the given year"}), 404
