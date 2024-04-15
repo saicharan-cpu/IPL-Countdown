@@ -12,6 +12,7 @@ def testing():
 @app.route('/player/<int:player_id>', methods=['GET'])
 def get_player_info(player_id):
     query = "SELECT * FROM player_info WHERE player_id = %s"
+
     data = db.execute_read_query(query, (player_id,))
     if data:
         player_info = data[0]
