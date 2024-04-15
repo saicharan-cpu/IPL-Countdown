@@ -1,6 +1,6 @@
 DB_CONFIG = {
     'host': 'localhost',
-    'user': 'root',
-    'password': 'nishitha',
+    'user': 'sreenikitha',
+    'password': 'newpassword123',
     'database': 'iplcountdown'
 }

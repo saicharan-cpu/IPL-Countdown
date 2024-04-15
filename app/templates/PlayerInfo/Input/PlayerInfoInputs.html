@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <title>Scenario-1 Yield</title>
+        <link rel="stylesheet" type="text/css" href="../../../static/vendor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../static/css/main.css">
+        <link rel="stylesheet" href="/static/css/bootstrap.css">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script type="text/javascript">
+            window.history.forward();
+            function noBack() {
+                window.history.forward();
+            }
+        </script>
+    </head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
+        <h1>
+            <a class="navbar-brand py-2" href="{{url_for('home')}}">
+                IPL Coundown
+            </a>
+        </h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon">
+					</span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto ml-xl-5 ml-lg-3 px-xl-5 px-lg-4 py-4 text-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('home')}}"
+                       style="font-size: 1.50rem;color: black; font-weight: bold;">
+                        Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                    <a class="nav-link" href="{{url_for('aboutproject')}}"
+                       style="font-size: 1.50rem;color: black; font-weight: bold;">
+                        About Project
+                    </a>
+                </li>
+                <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                    <a class="nav-link" href="{{url_for('features')}}"
+                       style="font-size: 1.50rem;color: black; font-weight: bold;">
+                        Features
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+</div>
+<div class="breadcrumb-agile">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{url_for('home')}}">
+                    Home
+                </a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{url_for('features')}}">
+                    Features
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                PlayerInfo
+            </li>
+        </ol>
+    </nav>
+    <div class="banner3-w3ls"></div>
+    <div style="height: 50px;"></div>
+    <div class="search-container">
+        <form id="searchForm" onsubmit="event.preventDefault(); searchPlayerById();">
+            <input type="text" placeholder="Search player by name..." name="search" id="searchInput">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+</div>
+<div style="height: 50px;"></div>
+<div id="playerInfo">Player details will be shown here.</div>
+ <script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/static/vendor/tilt/tilt.jquery.min.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+</body>
+</html>

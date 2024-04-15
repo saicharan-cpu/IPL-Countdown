@@ -1,25 +1,62 @@
 from flask import jsonify
 from .models import Database
-from app import app, db_connection, db_cursor
+
 import mysql.connector
 import re
 
 db_connection = None
 db_cursor = None
 
-@app.before_request
-def before_each_request():
-    global db_connection, db_cursor
-    db_connection = mysql.connector.connect(**app.config['DB_CONFIG'])
-    db_cursor = db_connection.cursor()
+def setup_database(app):
+    @app.before_request
+    def before_each_request():
+        global db_connection, db_cursor
+        db_connection = mysql.connector.connect(**app.config['DB_CONFIG'])
+        db_cursor = db_connection.cursor()
 
-@app.teardown_appcontext
-def close_db_connection(exception=None):
-    db_connection.close()
+    @app.teardown_appcontext
+    def close_db_connection(exception=None):
+        if db_connection:
+            db_connection.close()
 
-@app.route('/')
-def testing():
-    return 'testing'
+
+
+def configure_routes(app):
+    @app.route('/home')
+    def home():
+        return render_template('Main/index.html')
+
+    setup_database(app)
+    @app.route('/')
+    def test():
+        return render_template('Main/index.html')
+
+    @app.route('/aboutproject')
+    def aboutproject():
+        return render_template('Main/AboutProject.html')
+    @app.route('/IPLFeatures')
+    def features():
+        return render_template('Main/IPLFeatures.html')
+
+    @app.route('/playerInfo')
+    def playerInfo():
+        return render_template('PlayerInfo/Input/PlayerInfoInputs.html')
+
+    @app.route('/coaches')
+    def coaches():
+        return render_template('Coaches/Input/CoachesInput.html')
+
+    @app.route('/teamComposition')
+    def teamComposition():
+        return render_template('Teamcomposition/Input/TeamCompositionInput.html')
+
+    @app.route('/budget')
+    def budget():
+        return render_template('Teamcomposition/Input/TeamCompositionInput.html')
+
+    @app.route('/matchesScheduled')
+    def matchesScheduled():
+        return render_template('MatchSchedule/Input/MatchScheduleInput.html')
 
 
 @app.route('/player/<string:player_name>', methods=['GET'])
@@ -36,19 +73,19 @@ def get_player_info_by_name(player_name):
         player_data = {
             "player_id": player_info[0],
             "player_name": player_info[1],
-            "date_of_birth": str(player_info[2]),  
-            "is_international": bool(player_info[3]), 
+            "date_of_birth": str(player_info[2]),
+            "is_international": bool(player_info[3]),
             "innings_played": player_info[4],
             "catches_taken": player_info[5],
             "run_outs": player_info[6],
             "total_runs": player_info[7],
-            "strike_rate": float(player_info[8]),  
+            "strike_rate": float(player_info[8]),
             "num_thirties": player_info[9],
             "num_fifties": player_info[10],
             "num_centuries": player_info[11],
             "num_stumpings": player_info[12],
-            "bowling_average": float(player_info[13]), 
-            "bowling_economy": float(player_info[14]),  
+            "bowling_average": float(player_info[13]),
+            "bowling_economy": float(player_info[14]),
             "overs_bowled": float(player_info[15]),
             "wickets_taken": player_info[16],
             "best_bowling": player_info[17]
@@ -154,7 +191,7 @@ def get_team_performance(season, team_name):
         return jsonify(formatted_results)
     else:
         return jsonify({"message": "No performance data found for the specified team and season"}), 404
-    
+
 
 
 
@@ -170,7 +207,7 @@ def check_email_exists(email):
         return jsonify({"exists": True})
     else:
         return jsonify({"exists": False})
-    
+
 
 
 @app.route('/all-player-votes', methods=['GET'])
@@ -195,7 +232,7 @@ def get_season_info(year):
     db = Database(db_connection, db_cursor)
     query = "SELECT * FROM season_info WHERE year = %s"
     data = db.execute_read_query(query, (year,))
-    
+
     if data:
         season_info = {
             "year": data[0][0],
@@ -237,26 +274,26 @@ def get_team_composition(season, franchise):
             player_info = {
                 "player_id": row[0],
                 "player_name": row[1],
-                "date_of_birth": str(row[2]),  
-                "is_international": bool(row[3]), 
+                "date_of_birth": str(row[2]),
+                "is_international": bool(row[3]),
                 "innings_played": row[4],
                 "catches_taken": row[5],
                 "run_outs": row[6],
                 "total_runs": row[7],
-                "strike_rate": float(row[8]),  
+                "strike_rate": float(row[8]),
                 "num_thirties": row[9],
                 "num_fifties": row[10],
                 "num_centuries": row[11],
                 "num_stumpings": row[12],
-                "bowling_average": float(row[13]), 
-                "bowling_economy": float(row[14]),  
+                "bowling_average": float(row[13]),
+                "bowling_economy": float(row[14]),
                 "overs_bowled": float(row[15]),
                 "wickets_taken": row[16],
                 "best_bowling": row[17],
                 "player_cost": float(row[18]),
             }
             team_composition.append(player_info)
-        
+
         # Construct the response including team composition and budget details
         response = {
             "team_composition": team_composition,
