@@ -110,4 +110,22 @@
         <script src="../../../static/js/bootstrap.js"></script>
     </div>
 </body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Document loaded......");
+    const dropdown = document.getElementById('yearDropdown');
+    console.log("Dropdown is:", dropdown);
+    if (dropdown) {
+        dropdown.addEventListener('change', function() {
+            const selectedYear = this.value;
+            console.log("Selected year is:" + selectedYear);
+            if (selectedYear) {
+                fetchMatchesByYear(selectedYear);
+            }
+        });
+    } else {
+        console.error("Dropdown element not found!");
+    }
+});
+</script>
 </html>

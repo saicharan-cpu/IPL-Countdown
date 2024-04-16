@@ -1,5 +1,6 @@
 function searchPlayerById() {
     const playerName = document.getElementById('searchInput').value;
+    console.log("searching for player :"+playerName)
     if (playerName) {
         fetch(`/player/${encodeURIComponent(playerName)}`)
             .then(response => {
@@ -128,8 +129,12 @@ function displayNoMatchesFound() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+console.log("Document loaded......");
+    const dropdown = document.getElementById('yearDropdown');
+    console.log("Dropdown is:", dropdown);
     document.getElementById('yearDropdown').addEventListener('change', function() {
         const selectedYear = this.value;
+        console.log("selected year is:"+selectedYear);
         if (selectedYear) {
             fetchMatchesByYear(selectedYear);
         }
