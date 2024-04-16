@@ -176,6 +176,57 @@ def configure_routes(app):
         else:
             return jsonify({"message": "No details found for the specified team and season"}), 404
 
+    @app.route('/allTeamCompositions/<int:season>', methods=['GET'])
+    def get_all_team_details(season):
+        db = Database(db_connection, db_cursor)
+
+        # Query to get players and the teams they belong to for a given season
+        players_query = """
+        SELECT p.player_id AS Player_id, p.player_name AS Player, f.franchise_name AS Team
+        FROM team_composition tc
+        JOIN player_info p ON tc.player_id = p.player_id
+        JOIN franchise_info f ON tc.franchise = f.franchise_id
+        WHERE tc.season = %s
+        ORDER BY f.franchise_name, p.player_name;
+        """
+        players_data = db.execute_read_query(players_query, (season,))
+
+        # Query to get leadership details for each team for a given season
+        leadership_query = """
+        SELECT f.franchise_name AS Team, cp.captain AS Captain_id, cap.player_name AS Captain, t.coach AS Coach_id, c.coach_name AS Coach
+        FROM franchise_info f
+        LEFT JOIN captaincy cp ON f.franchise_id = cp.franchise AND cp.season = %s
+        LEFT JOIN player_info cap ON cp.captain = cap.player_id
+        LEFT JOIN trains t ON f.franchise_id = t.franchise AND t.season = %s
+        LEFT JOIN coach_info c ON t.coach = c.coach_id
+        ORDER BY f.franchise_name;
+        """
+        leadership_data = db.execute_read_query(leadership_query, (season, season))
+
+        # Organizing data into a structured dictionary
+        if players_data or leadership_data:
+            results = {}
+            for row in players_data:
+                team = row[2]
+                if team not in results:
+                    results[team] = {'players': [], 'leadership': {}}
+                results[team]['players'].append({'Player_id': row[0], 'Player': row[1]})
+
+            for row in leadership_data:
+                team = row[0]
+                if team not in results:
+                    results[team] = {'players': [], 'leadership': {}}
+                results[team]['leadership'] = {
+                    'Captain_id': row[1],
+                    'Captain': row[2],
+                    'Coach_id': row[3],
+                    'Coach': row[4]
+                }
+
+            return jsonify(team_compositions=results)
+        else:
+            return jsonify({"message": "No team compositions found for the specified season"}), 404
+
 
 
 
@@ -262,18 +313,38 @@ def configure_routes(app):
         else:
             return jsonify({"message": "No years found"}), 404
 
-    @app.route('/teams/<int:year>', methods=['GET'])
-    def get_teams_by_year(year):
+    @app.route('/venues', methods=['GET'])
+    def get_venues():
         global db_connection, db_cursor
         db = Database(db_connection, db_cursor)
 
-        query = ("""
+        query = """
+            SELECT name, location, seating_capacity, pitch_outfield
+            FROM venue_info
+            ORDER BY name;
+        """
+        data = db.execute_read_query(query)
+
+        if data:
+            venues = [{'name': row[0], 'location': row[1], 'seating_capacity': row[2], 'pitch_outfield': row[3]} for row
+                      in data]
+            return jsonify(venues=venues)
+        else:
+            return jsonify({"message": "No venues found"}), 404
+
+    @app.route('/teams/<int:year>', methods=['GET'])
+    def get_teams_by_year(year):
+
+        global db_connection, db_cursor
+        db = Database(db_connection, db_cursor)
+
+        query = """
             SELECT DISTINCT fi.franchise_name
-            FROM matches m
-            JOIN franchise_info fi ON m.team_a = fi.franchise_id OR m.team_b = fi.franchise_id
-            WHERE m.season = %s
-            ORDER BY fi.franchise_name
-        """)
+            FROM team_composition tc
+            JOIN franchise_info fi ON tc.franchise = fi.franchise_id
+            WHERE tc.season = %s
+            ORDER BY fi.franchise_name;
+        """
         data = db.execute_read_query(query, (year,))
 
         if data:
