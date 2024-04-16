@@ -74,19 +74,24 @@
             </li>
         </ol>
     </nav>
-    <div class="banner3-w3ls"></div>
-    <div style="height: 50px;"></div>
-    <div class="search-container">
-        <form id="searchForm" onsubmit="event.preventDefault(); searchPlayerById();">
-            <input type="text" placeholder="Search player by name..." name="search" id="searchInput">
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+    <div class="banner3-w3ls">
+        <div class="content-overlay">
+            <div style="height: 50px;"></div>
+            <div class="search-container">
+                <form id="searchForm" onsubmit="event.preventDefault(); searchPlayerById();">
+                    <input type="text" placeholder="Search player by name..." name="search" id="searchInput">
+                    <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="content-overlay">
+        <div id="playerInfo">
+            <script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
+            <script src="/static/vendor/tilt/tilt.jquery.min.js"></script>
+            <script src="/static/js/bootstrap.js"></script>
+        </div>
     </div>
 </div>
-<div style="height: 50px;"></div>
-<div id="playerInfo">Player details will be shown here.</div>
- <script src="/static/vendor/jquery/jquery-3.2.1.min.js"></script>
-    <script src="/static/vendor/tilt/tilt.jquery.min.js"></script>
-    <script src="/static/js/bootstrap.js"></script>
 </body>
 </html>

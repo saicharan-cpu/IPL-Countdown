@@ -1,7 +1,7 @@
 function searchPlayerById() {
-    const playerId = document.getElementById('searchInput').value;
-    if (playerId) {
-        fetch(`/player/${playerId}`)
+    const playerName = document.getElementById('searchInput').value;
+    if (playerName) {
+        fetch(`/player/${encodeURIComponent(playerName)}`)
             .then(response => {
                 if (!response.ok) throw new Error('No player found');
                 return response.json();
@@ -73,3 +73,70 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
             event.preventDefault();
             searchPlayerById();
         });
+
+function fetchMatchesByYear(year) {
+    fetch(`/matches/${encodeURIComponent(year)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch matches');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.matches_data) {
+                displayMatches(data.matches_data);
+            } else {
+                displayNoMatchesFound();
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching match data:', error);
+            displayNoMatchesFound();
+        });
+}
+
+function displayMatches(matches) {
+    const table = document.getElementById('matchesTable');
+    table.innerHTML = ''; // Clear previous entries
+
+    const header = `
+        <tr>
+            <th>Match ID</th>
+            <th>Team A</th>
+            <th>Team B</th>
+            <th>Venue</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>`;
+    let rows = matches.map(match => `
+        <tr>
+            <td>${match.Match_ID}</td>
+            <td>${match.Team_A_Name}</td>
+            <td>${match.Team_B_Name}</td>
+            <td>${match.Venue}</td>
+            <td>${match.Date}</td>
+            <td>${match.Time}</td>
+        </tr>`
+    ).join('');
+
+    table.innerHTML = header + rows;
+}
+
+function displayNoMatchesFound() {
+    const table = document.getElementById('matchesTable');
+    table.innerHTML = '<tr><td colspan="6">No matches found for selected year.</td></tr>';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('yearDropdown').addEventListener('change', function() {
+        const selectedYear = this.value;
+        if (selectedYear) {
+            fetchMatchesByYear(selectedYear);
+        }
+    });
+});
+
+
+
+
+
