@@ -63,6 +63,20 @@
     background-color: #f9f9f9;
     border-top: 1px solid #eee;
 }
+#teamDetailsContainer {
+    margin-top: 20px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
 
 
 .venue-details {

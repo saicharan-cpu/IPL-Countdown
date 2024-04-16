@@ -200,8 +200,14 @@ function fetchVenueDetails(venueName) {
         });
 }
 
-function fetchTeamComposition(year) {
-    const url = `/allTeamCompositions/${encodeURIComponent(year)}`;
+function fetchTeamComposition(year, teamName) {
+    let url;
+    if (teamName) {
+        url = `/teamComposition/${encodeURIComponent(year)}/${encodeURIComponent(teamName)}`;
+    } else {
+        url = `/allTeamCompositions/${encodeURIComponent(year)}`;
+    }
+
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -210,8 +216,13 @@ function fetchTeamComposition(year) {
             return response.json();
         })
         .then(data => {
-            if (data.team_compositions) {
-                displayTeamComposition(data.team_compositions);
+            console.log(data);
+            if (data && Object.keys(data).length > 0) {
+                if (teamName) {
+                    displayTeamCompositionOnly(data);
+                } else {
+                   displayTeamComposition(data);
+                }
             } else {
                 alert('No team composition data available.');
             }
@@ -222,13 +233,10 @@ function fetchTeamComposition(year) {
         });
 }
 
+
 function displayTeamComposition(teamData) {
-if (!teamData || !teamData.team_compositions ) {
-        console.error('No team data available.');
-        return;
-    }
     const teamList = document.getElementById('teamList');
-    teamList.innerHTML = ''; // Clear existing content
+    teamList.innerHTML = '';
 
     Object.entries(teamData.team_compositions).forEach(([teamName, info]) => {
         const teamContainer = document.createElement('div');
@@ -238,12 +246,12 @@ if (!teamData || !teamData.team_compositions ) {
         teamHeader.textContent = teamName;
 
         const toggleButton = document.createElement('button');
-        toggleButton.textContent = 'Toggle Details';
+        toggleButton.textContent = 'Team Composition Details';
         toggleButton.onclick = () => toggleDetails(teamName);
 
         const detailsDiv = document.createElement('div');
         detailsDiv.id = teamName + '-details';
-        detailsDiv.style.display = 'none'; // Initially hide details
+        detailsDiv.style.display = 'none';
         detailsDiv.innerHTML = `
             <strong>Captain:</strong> ${info.leadership.Captain || 'None'}<br>
             <strong>Coach:</strong> ${info.leadership.Coach || 'None'}<br>
@@ -269,7 +277,58 @@ function toggleDetails(teamName) {
     }
 }
 
+function displayTeamCompositionOnly(data) {
+    if (!data || !data.team_details) {
+        console.error('No team details data available.');
+        return;
+    }
 
+    const teamDetails = data.team_details;
+
+    const container = document.getElementById('teamDetailsContainer');
+    container.innerHTML = '';
+
+    const table = document.createElement('table');
+    table.className = 'table table-striped';
+
+    const leadership = teamDetails.leadership;
+    let html = `
+        <thead>
+            <tr><th colspan="2">Leadership</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Captain</td>
+                <td>${leadership.Captain} (ID: ${leadership.Captain_id})</td>
+            </tr>
+            <tr>
+                <td>Coach</td>
+                <td>${leadership.Coach} (ID: ${leadership.Coach_id})</td>
+            </tr>
+        </tbody>
+    `;
+
+
+    html += `
+        <thead>
+            <tr><th colspan="3">Players</th></tr>
+        </thead>
+        <tbody>
+    `;
+    teamDetails.players.forEach(player => {
+        html += `
+            <tr>
+                <td>${player.Player}</td>
+                <td>ID: ${player.Player_id}</td>
+                <td>Team: ${player.Team}</td>
+            </tr>
+        `;
+    });
+
+    html += '</tbody>';
+    table.innerHTML = html;
+    container.appendChild(table);
+}
 
 
 

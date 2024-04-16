@@ -61,7 +61,7 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
             <li class="breadcrumb-item"><a href="{{url_for('features')}}">Features</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Match schedule</li>
+            <li class="breadcrumb-item active" aria-current="page">Team Composition</li>
         </ol>
     </nav>
     <div class="banner2-w3ls"></div>
@@ -112,6 +112,8 @@
         <!-- Teams will be dynamically inserted here -->
     </tbody>
 </table>
+        <div id="teamDetailsContainer"></div>
+
         <script src="../../../static/vendor/jquery/jquery-3.2.1.min.js"></script>
         <script src="../../../static/vendor/tilt/tilt.jquery.min.js"></script>
         <script src="../../../static/js/bootstrap.js"></script>
@@ -122,28 +124,29 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const yearDropdown = document.getElementById('yearDropdown');
-    if (!yearDropdown ) {
-        console.error("Dropdown elements not found!");
-        return;
-    }
+    const teamDropdown = document.getElementById('teamDropdown');
 
     function handleDropdownChange() {
         const selectedYear = yearDropdown.value;
+        const selectedTeam = teamDropdown.value;
 
-        // Call fetchTeamComposition only if a year is selected
+        console.log("Selected year is:", selectedYear);
+        console.log("Selected Team A is:", selectedTeam);
+
         if (selectedYear) {
-            fetchTeamComposition(selectedYear);
+            fetchTeamComposition(selectedYear, selectedTeam);
         }
     }
 
-    // Add event listener to the year dropdown
-    if (yearDropdown) {
-        yearDropdown.addEventListener('change', handleDropdownChange);
-    } else {
-        console.error("Year dropdown element not found!");
-    }
+    [yearDropdown, teamDropdown].forEach(dropdown => {
+         if (dropdown) {
+             dropdown.addEventListener('change', handleDropdownChange);
+         }
+     });
 });
+
+
 </script>
 </html>
