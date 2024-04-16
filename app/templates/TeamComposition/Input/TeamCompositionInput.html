@@ -101,27 +101,20 @@
             </div>
         </div>
         <div style="height: 50px;"></div>
-        <table id="matchesTable" border="1" class="table">
-        </table>
+        <table id="teamCompositionTable" class="table">
+    <thead>
+        <tr>
+            <th>Team</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody id="teamList">
+        <!-- Teams will be dynamically inserted here -->
+    </tbody>
+</table>
         <script src="../../../static/vendor/jquery/jquery-3.2.1.min.js"></script>
         <script src="../../../static/vendor/tilt/tilt.jquery.min.js"></script>
         <script src="../../../static/js/bootstrap.js"></script>
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="venueModal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="venueModalLabel">Venue Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Venue details will be loaded here -->
-            </div>
-        </div>
     </div>
 </div>
 
@@ -129,21 +122,28 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const yearDropdown = document.getElementById('yearDropdown');
-    const teamADropdown = document.getElementById('teamADropdown');
+    if (!yearDropdown ) {
+        console.error("Dropdown elements not found!");
+        return;
+    }
 
     function handleDropdownChange() {
         const selectedYear = yearDropdown.value;
-        const selectedTeam = teamADropdown.value;
 
-        if (selectedYear && selectedTeam) {
-            fetchTeamComposition(selectedYear, selectedTeam);
+        // Call fetchTeamComposition only if a year is selected
+        if (selectedYear) {
+            fetchTeamComposition(selectedYear);
         }
     }
 
-    yearDropdown.addEventListener('change', handleDropdownChange);
-    teamADropdown.addEventListener('change', handleDropdownChange);
+    // Add event listener to the year dropdown
+    if (yearDropdown) {
+        yearDropdown.addEventListener('change', handleDropdownChange);
+    } else {
+        console.error("Year dropdown element not found!");
+    }
 });
 </script>
 </html>

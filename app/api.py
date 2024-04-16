@@ -135,6 +135,33 @@ def configure_routes(app):
         else:
             return jsonify({"message": "Matches info not found for the given year"}), 404
 
+    @app.route('/teamPerformance/<int:season>', methods=['GET'])
+    def get_all_teams_performance(season):
+        global db_connection, db_cursor
+        db = Database(db_connection, db_cursor)
+        query = """
+            SELECT tp.season, f.franchise_name AS Team, tp.matches_won AS Matches_Won,
+                   tp.matches_lost AS Matches_Lost, tp.points AS Total_Points,
+                   CASE WHEN s.winners_team_id = f.franchise_id THEN 1 ELSE 0 END AS Trophies_Won
+            FROM team_performance tp
+            JOIN franchise_info f ON tp.team_id = f.franchise_id
+            LEFT JOIN season_info s ON tp.season = s.year
+            WHERE tp.season = %s
+            ORDER BY f.franchise_name;
+        """
+        results = db.execute_read_query(query, (season,))
+        if results:
+            formatted_results = [{
+                'Season': row[0],
+                'Team': row[1],
+                'Matches Won': row[2],
+                'Matches Lost': row[3],
+                'Total Points': row[4],
+                'Trophies Won': row[5]
+            } for row in results]
+            return jsonify(team_performances=formatted_results)
+        else:
+            return jsonify({"message": "No performance data found for the specified season"}), 404
 
 
     @app.route('/teamComposition/<int:season>/<franchise_name>', methods=['GET'])

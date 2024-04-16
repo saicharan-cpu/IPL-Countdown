@@ -200,91 +200,74 @@ function fetchVenueDetails(venueName) {
         });
 }
 
-// Function to fetch team composition by season and franchise
-function fetchTeamComposition(season, franchise) {
-    const url = `/team-budget/${encodeURIComponent(season)}/${encodeURIComponent(franchise)}`;
+function fetchTeamComposition(year) {
+    const url = `/allTeamCompositions/${encodeURIComponent(year)}`;
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch team composition');
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.team_composition) {
-                displayTeams(data.team_composition);
+            if (data.team_compositions) {
+                displayTeamComposition(data.team_compositions);
             } else {
-                displayNoTeamsFound();
+                alert('No team composition data available.');
             }
         })
         .catch(error => {
-            console.error('Error fetching team data:', error);
-            displayNoTeamsFound();
+            console.error('Failed to fetch team composition', error);
+            alert('Failed to fetch team composition');
         });
 }
 
-// Function to display team data
-function displayTeams(teamData) {
-    const table = document.getElementById('matchesTable');
-    table.innerHTML = '';
-    const header = `
-        <thead>
-        <tr>
-            <th>Player ID</th>
-            <th>Player Name</th>
-            <th>Date of Birth</th>
-            <th>Is International</th>
-            <th>Innings Played</th>
-            <th>Catches Taken</th>
-            <th>Run Outs</th>
-            <th>Total Runs</th>
-            <th>Strike Rate</th>
-            <th>30s</th>
-            <th>50s</th>
-            <th>100s</th>
-            <th>Stumpings</th>
-            <th>Bowling Average</th>
-            <th>Bowling Economy</th>
-            <th>Overs Bowled</th>
-            <th>Wickets Taken</th>
-            <th>Best Bowling</th>
-            <th>Player Cost</th>
-        </tr>
-        </thead>`;
-    let rows = teamData.map(player => `
-        <tbody>
-        <tr>
-            <td>${player.player_id}</td>
-            <td>${player.player_name}</td>
-            <td>${player.date_of_birth}</td>
-            <td>${player.is_international ? 'Yes' : 'No'}</td>
-            <td>${player.innings_played}</td>
-            <td>${player.catches_taken}</td>
-            <td>${player.run_outs}</td>
-            <td>${player.total_runs}</td>
-            <td>${player.strike_rate.toFixed(2)}</td>
-            <td>${player.num_thirties}</td>
-            <td>${player.num_fifties}</td>
-            <td>${player.num_centuries}</td>
-            <td>${player.num_stumpings}</td>
-            <td>${player.bowling_average.toFixed(2)}</td>
-            <td>${player.bowling_economy.toFixed(2)}</td>
-            <td>${player.overs_bowled.toFixed(1)}</td>
-            <td>${player.wickets_taken}</td>
-            <td>${player.best_bowling}</td>
-            <td>${player.player_cost.toFixed(2)}</td>
-        </tr>
-        </tbody>`
-    ).join('');
-    table.innerHTML = header + rows;
+function displayTeamComposition(teamData) {
+if (!teamData || !teamData.team_compositions ) {
+        console.error('No team data available.');
+        return;
+    }
+    const teamList = document.getElementById('teamList');
+    teamList.innerHTML = ''; // Clear existing content
+
+    Object.entries(teamData.team_compositions).forEach(([teamName, info]) => {
+        const teamContainer = document.createElement('div');
+        teamContainer.className = 'team-container';
+
+        const teamHeader = document.createElement('h3');
+        teamHeader.textContent = teamName;
+
+        const toggleButton = document.createElement('button');
+        toggleButton.textContent = 'Toggle Details';
+        toggleButton.onclick = () => toggleDetails(teamName);
+
+        const detailsDiv = document.createElement('div');
+        detailsDiv.id = teamName + '-details';
+        detailsDiv.style.display = 'none'; // Initially hide details
+        detailsDiv.innerHTML = `
+            <strong>Captain:</strong> ${info.leadership.Captain || 'None'}<br>
+            <strong>Coach:</strong> ${info.leadership.Coach || 'None'}<br>
+            <strong>Players:</strong> ${listPlayers(info.players)}
+        `;
+
+        teamContainer.appendChild(teamHeader);
+        teamContainer.appendChild(toggleButton);
+        teamContainer.appendChild(detailsDiv);
+        teamList.appendChild(teamContainer);
+    });
 }
 
-// Function to display when no teams are found
-function displayNoTeamsFound() {
-    const table = document.getElementById('matchesTable');
-    table.innerHTML = '<tr><td colspan="19">No team composition found for the selected criteria.</td></tr>';
+function listPlayers(players) {
+    if (!players || players.length === 0) return 'No players';
+    return players.map(player => `${player.Player} (ID: ${player.Player_id})`).join(', ');
 }
 
-
-
-
-
-
+function toggleDetails(teamName) {
+    const details = document.getElementById(teamName + '-details');
+    if (details) {
+        details.style.display = details.style.display === 'none' ? 'block' : 'none';
+    }
+}
 
 
 

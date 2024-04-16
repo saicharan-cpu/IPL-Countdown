@@ -43,6 +43,28 @@
     color: #000000;
 }
 
+.team-container {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.team-container h3 {
+    color: #333;
+}
+
+.team-container button {
+    margin: 10px 0;
+}
+
+.team-container div {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+
 .venue-details {
     display: block;
     visibility: visible;
