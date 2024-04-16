@@ -283,7 +283,7 @@ def configure_routes(app):
             return jsonify({"message": "No teams found for the given year"}), 404
 
     @app.route('/team-budget/<int:season>/<string:franchise>', methods=['GET'])
-    def get_team_composition(season, franchise):
+    def get_team_budget(season, franchise):
         global db_connection, db_cursor
         db = Database(db_connection, db_cursor)
 
@@ -339,5 +339,12 @@ def configure_routes(app):
         else:
             return jsonify({"message": "No team composition found for the specified season and franchise"}), 404
 
-
-
+    @app.route('/api/venue/<string:venue_name>', methods=['GET'])
+    def get_venue_details(venue_name):
+        venue_details = {
+            "name": venue_name,
+            "location": "Some location",
+            "capacity": "50,000",
+            "other_details": "Additional info about the venue."
+        }
+        return jsonify(venue_details)

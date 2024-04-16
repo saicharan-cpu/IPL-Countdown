@@ -39,8 +39,53 @@
 
 /* Hover effect for rows */
 .table tbody tr:hover {
-    background-color: #000000;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000000;
 }
+
+.venue-details {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+.venue:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+    cursor: pointer; /* Shows a pointer cursor to indicate interactivity */
+}
+
+
+.loading-text {
+    color: #888;
+    font-style: italic;
+}
+
+.venue-details {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.venue:hover .venue-details {
+    opacity: 1;
+}
+
+.venue-details {
+    position: absolute;
+    z-index: 100;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.parent-container {
+    overflow: visible;
+}
+
+
+
+
 
 #playerInfo {
     position: absolute;
@@ -137,10 +182,6 @@ a:hover {
     outline: none
 }
 
-/*-- //Reset Code --*/
-
-/*-- bottom-to-top --*/
-
 #toTop {
     display: none;
     text-decoration: none;
@@ -167,11 +208,6 @@ a:hover {
     filter: alpha(opacity=0);
 }
 
-/*-- //bottom-to-top --*/
-
-/* hearder */
-
-/* logo */
 
 a.navbar-brand {
     font-family: 'Playfair Display', serif;
@@ -181,9 +217,6 @@ a.navbar-brand {
     font-weight: 600;
 }
 
-/* logo */
-
-/* navigation */
 
 ul.navbar-nav {
     background: #f1cf69;
@@ -219,9 +252,6 @@ a.nav-link:hover, a.nav-link.active, a.nav-link.dropdown-toggle.active {
     background-color: #f1cf69;
 }
 
-/* //navigation */
-
-/* header contact */
 
 .header-contact-w3ls a {
     color: #fff;
@@ -239,12 +269,6 @@ a.nav-link:hover, a.nav-link.active, a.nav-link.dropdown-toggle.active {
     font-size: 20px;
     vertical-align: middle;
 }
-
-/* //header contact */
-
-/* //header */
-
-/* banner */
 
 .banner-slider1,
 .banner-slider2,
@@ -885,6 +909,7 @@ section.middle-w3ls img {
     height: 38px;  /* Example height, adjust as needed */
     font-size: 0.9rem;  /* Smaller font size */
 }
+
 
 /* Styling the form elements */
 #searchForm {

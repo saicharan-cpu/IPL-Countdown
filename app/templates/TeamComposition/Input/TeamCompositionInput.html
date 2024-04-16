@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <head>
-		<title>Scenario-1 Yield</title>
-		<link rel="stylesheet" type="text/css" href="../../../static/vendor/bootstrap/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../../../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="../../../static/css/main.css">
-		<link rel="stylesheet" href="../../../static/css/bootstrap.css">
-		<link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Scenario-1 Yield</title>
+    <link rel="stylesheet" type="text/css" href="../../../static/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../static/css/main.css">
+    <link rel="stylesheet" href="../../../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <script type="text/javascript">
         window.history.forward();
         function noBack() {
@@ -21,13 +24,12 @@
     <nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
         <h1>
             <a class="navbar-brand py-2" href="{{url_for('home')}}">
-                IPL Coundown
+                IPL Countdown
             </a>
         </h1>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon">
-					</span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto ml-xl-5 ml-lg-3 px-xl-5 px-lg-4 py-4 text-center">
@@ -54,52 +56,94 @@
         </div>
     </nav>
 </header>
-</div>
 <div class="breadcrumb-agile">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{url_for('home')}}">
-                    Home
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{url_for('features')}}">
-                    Features
-                </a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Team Composition
-            </li>
+            <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('features')}}">Features</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Match schedule</li>
         </ol>
     </nav>
-    <div class="banner3-w3ls"></div>
+    <div class="banner2-w3ls"></div>
     <div style="height: 50px;"></div>
-    <div class="dropdown d-inline mx-2">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="seasonDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filter by Season
-    </button>
-    <div class="dropdown-menu" aria-labelledby="seasonDropdown">
-        {% for season in seasons %}
-            <a class="dropdown-item" href="#">{{ season[0] }}</a>
-        {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Dropdown for selecting the year -->
+                <select id="yearDropdown" class="form-control select-dropdown">
+                    <option value="">Select by Season</option>
+                    <option value="2013">2013</option>
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="teamADropdown" class="form-control select-dropdown">
+                    <!-- Dropdown for selecting Team A -->
+                    <option value="">Select by Team</option>
+                    <option value="Mumbai Indians">Mumbai Indians</option>
+                    <option value="Chennai Super Kings">Chennai Super Kings</option>
+                    <option value="Delhi Capitals">Delhi Capitals</option>
+                    <option value="Kings XI Punjab">Kings XI Punjab</option>
+                    <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+                    <option value="Rajasthan Royals">Rajasthan Royals</option>
+                    <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
+                    <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+                </select>
+            </div>
+        </div>
+        <div style="height: 50px;"></div>
+        <table id="matchesTable" border="1" class="table">
+        </table>
+        <script src="../../../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="../../../static/vendor/tilt/tilt.jquery.min.js"></script>
+        <script src="../../../static/js/bootstrap.js"></script>
     </div>
 </div>
-    <div class="dropdown d-inline mx-2">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="teamADropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filter by team
-    </button>
-    <div class="dropdown-menu" aria-labelledby="teamADropdown">
-        {% for team in teams %}
-            <a class="dropdown-item" href="#">{{ team[0] }}</a>
-        {% endfor %}
+<!-- Modal -->
+<div class="modal fade" id="venueModal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="venueModalLabel">Venue Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Venue details will be loaded here -->
+            </div>
+        </div>
     </div>
 </div>
-</div>
-</div>
-<script src="../../../static/vendor/jquery/jquery-3.2.1.min.js">
-		</script>
-		<script src="../../../static/vendor/tilt/tilt.jquery.min.js">
-		</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const yearDropdown = document.getElementById('yearDropdown');
+    const teamADropdown = document.getElementById('teamADropdown');
+
+    function handleDropdownChange() {
+        const selectedYear = yearDropdown.value;
+        const selectedTeam = teamADropdown.value;
+
+        if (selectedYear && selectedTeam) {
+            fetchTeamComposition(selectedYear, selectedTeam);
+        }
+    }
+
+    yearDropdown.addEventListener('change', handleDropdownChange);
+    teamADropdown.addEventListener('change', handleDropdownChange);
+});
+</script>
 </html>

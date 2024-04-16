@@ -6,8 +6,12 @@
     <link rel="stylesheet" type="text/css" href="../../../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="../../../static/css/main.css">
     <link rel="stylesheet" href="../../../static/css/bootstrap.css">
-    <link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="../../../static/css/style.css" type="text/css" media="all"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
     <script type="text/javascript">
         window.history.forward();
         function noBack() {
@@ -16,116 +20,193 @@
     </script>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
-            <h1>
-                <a class="navbar-brand py-2" href="{{url_for('home')}}">
-                    IPL Countdown
-                </a>
-            </h1>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto ml-xl-5 ml-lg-3 px-xl-5 px-lg-4 py-4 text-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('home')}}" style="font-size: 1.50rem;color: black; font-weight: bold;">
-                            Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mx-lg-4 my-lg-0 my-3">
-                        <a class="nav-link" href="{{url_for('aboutproject')}}" style="font-size: 1.50rem;color: black; font-weight: bold;">
-                            About Project
-                        </a>
-                    </li>
-                    <li class="nav-item mx-lg-4 my-lg-0 my-3">
-                        <a class="nav-link" href="{{url_for('features')}}" style="font-size: 1.50rem;color: black; font-weight: bold;">
-                            Features
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <div class="breadcrumb-agile">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{url_for('features')}}">Features</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Match schedule</li>
-            </ol>
-        </nav>
-        <div class="banner2-w3ls"></div>
-        <div style="height: 50px;"></div>
-        <div class="container">
-            <!-- Dropdown for selecting the year -->
-            <select id="yearDropdown" class="form-control select-dropdown">
-                <option value="">Select a Year</option>
-                <option value="2013">2013</option>
-                <option value="2014">2014</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-                <option value="2021">2021</option>
-                <option value="2022">2022</option>
-                <option value="2023">2023</option>
-            </select>
-            <!-- Dropdown for selecting Team A -->
-            <label for="teamADropdown">Select Team A:</label>
-            <select id="teamADropdown" class="custom-select">
-                <option value="">Select a Team</option>
-                <option value="Mumbai Indians">Mumbai Indians</option>
-                <option value="Chennai Super Kings">Chennai Super Kings</option>
-                <option value="Delhi Capitals">Delhi Capitals</option>
-                <option value="Kings XI Punjab">Kings XI Punjab</option>
-                <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
-                <option value="Rajasthan Royals">Rajasthan Royals</option>
-                <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
-                <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
-            </select>
-            <!-- Dropdown for selecting Team B -->
-            <label for="teamBDropdown">Select Team B:</label>
-            <select id="teamBDropdown" class="custom-select">
-                <option value="">Select a Team</option>
-                <option value="Mumbai Indians">Mumbai Indians</option>
-                <option value="Chennai Super Kings">Chennai Super Kings</option>
-                <option value="Delhi Capitals">Delhi Capitals</option>
-                <option value="Kings XI Punjab">Kings XI Punjab</option>
-                <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
-                <option value="Rajasthan Royals">Rajasthan Royals</option>
-                <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
-                <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
-            </select>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light px-sm-5 px-3 py-0">
+        <h1>
+            <a class="navbar-brand py-2" href="{{url_for('home')}}">
+                IPL Countdown
+            </a>
+        </h1>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto ml-xl-5 ml-lg-3 px-xl-5 px-lg-4 py-4 text-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('home')}}"
+                       style="font-size: 1.50rem;color: black; font-weight: bold;">
+                        Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                    <a class="nav-link" href="{{url_for('aboutproject')}}"
+                       style="font-size: 1.50rem;color: black; font-weight: bold;">
+                        About Project
+                    </a>
+                </li>
+                <li class="nav-item mx-lg-4 my-lg-0 my-3">
+                    <a class="nav-link" href="{{url_for('features')}}"
+                       style="font-size: 1.50rem;color: black; font-weight: bold;">
+                        Features
+                    </a>
+                </li>
+            </ul>
         </div>
-        <table id="matchesTable" border="1">
-            <!-- Rows will be inserted here by JavaScript -->
+    </nav>
+</header>
+<div class="breadcrumb-agile">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{url_for('home')}}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{url_for('features')}}">Features</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Match schedule</li>
+        </ol>
+    </nav>
+    <div class="banner2-w3ls"></div>
+    <div style="height: 50px;"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Dropdown for selecting the year -->
+                <select id="yearDropdown" class="form-control select-dropdown">
+                    <option value="">Select a Year</option>
+                    <option value="2013">2013</option>
+                    <option value="2014">2014</option>
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="teamADropdown" class="form-control select-dropdown">
+                    <!-- Dropdown for selecting Team A -->
+                    <option value="">Select a Team</option>
+                    <option value="Mumbai Indians">Mumbai Indians</option>
+                    <option value="Chennai Super Kings">Chennai Super Kings</option>
+                    <option value="Delhi Capitals">Delhi Capitals</option>
+                    <option value="Kings XI Punjab">Kings XI Punjab</option>
+                    <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+                    <option value="Rajasthan Royals">Rajasthan Royals</option>
+                    <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
+                    <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <!-- Dropdown for selecting Team B -->
+                <select id="teamBDropdown" class="form-control select-dropdown">
+                    <option value="">Select a Team</option>
+                    <option value="Mumbai Indians">Mumbai Indians</option>
+                    <option value="Chennai Super Kings">Chennai Super Kings</option>
+                    <option value="Delhi Capitals">Delhi Capitals</option>
+                    <option value="Kings XI Punjab">Kings XI Punjab</option>
+                    <option value="Kolkata Knight Riders">Kolkata Knight Riders</option>
+                    <option value="Rajasthan Royals">Rajasthan Royals</option>
+                    <option value="Royal Challengers Bangalore">Royal Challengers Bangalore</option>
+                    <option value="Sunrisers Hyderabad">Sunrisers Hyderabad</option>
+                </select>
+            </div>
+        </div>
+        <div style="height: 50px;"></div>
+        <table id="matchesTable" border="1" class="table">
         </table>
         <script src="../../../static/vendor/jquery/jquery-3.2.1.min.js"></script>
         <script src="../../../static/vendor/tilt/tilt.jquery.min.js"></script>
         <script src="../../../static/js/bootstrap.js"></script>
     </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="venueModal" tabindex="-1" aria-labelledby="venueModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="venueModalLabel">Venue Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Venue details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("Document loaded......");
-    const dropdown = document.getElementById('yearDropdown');
-    console.log("Dropdown is:", dropdown);
-    if (dropdown) {
-        dropdown.addEventListener('change', function() {
-            const selectedYear = this.value;
-            console.log("Selected year is:" + selectedYear);
-            if (selectedYear) {
-                fetchMatchesByYear(selectedYear);
-            }
-        });
-    } else {
-        console.error("Dropdown element not found!");
+    document.addEventListener('DOMContentLoaded', function() {
+     console.log("Document loaded......");
+
+     const yearDropdown = document.getElementById('yearDropdown');
+     const teamADropdown = document.getElementById('teamADropdown');
+     const teamBDropdown = document.getElementById('teamBDropdown');
+
+     function handleDropdownChange() {
+         const selectedYear = yearDropdown.value;
+         const selectedTeamA = teamADropdown.value;
+         const selectedTeamB = teamBDropdown.value;
+
+         console.log("Selected year is:", selectedYear);
+         console.log("Selected Team A is:", selectedTeamA);
+         console.log("Selected Team B is:", selectedTeamB);
+
+         if (selectedYear) {
+             fetchMatchesByYear(selectedYear, selectedTeamA, selectedTeamB);
+         }
+     }
+
+     [yearDropdown, teamADropdown, teamBDropdown].forEach(dropdown => {
+         if (dropdown) {
+             dropdown.addEventListener('change', handleDropdownChange);
+         }
+     });
+ });
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('matchesTable');
+        if (table) {
+            table.addEventListener('click', function(event) {
+                const target = event.target;
+                if (target.tagName === 'A' && target.getAttribute('data-venue')) {
+                    const venueName = target.getAttribute('data-venue');
+                    fetchVenueDetails(venueName);
+                    event.preventDefault();
+                }
+            });
+        }
+    });
+
+    function fetchVenueDetails(venueName) {
+        fetch(`/api/venue/${encodeURIComponent(venueName)}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Venue not found');
+                return response.json();
+            })
+            .then(data => {
+                const modalBody = document.querySelector('#venueModal .modal-body');
+                modalBody.innerHTML = `
+                    <strong>Name:</strong> ${data.name}<br>
+                    <strong>Location:</strong> ${data.location}<br>
+                    <strong>Capacity:</strong> ${data.capacity}<br>
+                    <strong>Details:</strong> ${data.other_details}`;
+                $('#venueModal').modal('show');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
-});
+
 </script>
 </html>
