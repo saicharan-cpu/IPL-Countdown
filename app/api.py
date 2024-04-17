@@ -1,8 +1,10 @@
-from flask import jsonify
+from flask import jsonify, request
 from .models import Database
 from app import app, db_connection, db_cursor
 import mysql.connector
 import re
+import json
+from mysql.connector.errors import ProgrammingError
 
 db_connection = None
 db_cursor = None
@@ -271,4 +273,43 @@ def get_team_composition(season, franchise):
         return jsonify({"message": "No team composition found for the specified season and franchise"}), 404
 
 
+
+@app.route('/submit-engagement', methods=['POST'])
+def submit_engagement():
+    # Extract data from the request
+    data = request.get_json()
+    email = data.get('email')
+    username = data.get('username')
+    player_name = data.get('player_name')
+
+    try:
+        db_cursor.callproc('Add_Fan_Engagement', (email, username, player_name))
+        db_connection.commit()
+        return jsonify({"message": "Engagement submitted successfully"}), 200
+    except Exception as pe:
+        if pe.errno == 1048:
+            return jsonify({"error": "Player not found"}), 404
+        else:
+            return jsonify({"error": str(pe)}), 500
+        
+@app.route('/submit-team-composition', methods=['POST'])
+def submit_team_composition():
+    # Extract data from the request
+    data = request.json
+    franchise_name = data.get('franchise_name')
+    season_year = data.get('season_year')
+    total_budget = data.get('total_budget')
+    player_data = data.get('player_data')
+    coach_name = data.get('coach_name')
+    captain_name = data.get('captain_name')
+
+    try:
+        # Extract player names and costs from player_data
+        player_data_json = json.dumps(player_data)
+        
+        # Call the stored procedure
+        db_cursor.callproc('Populate_Team_Composition8', (franchise_name, season_year, total_budget,player_data_json, coach_name, captain_name))
+        return jsonify({"message": "Team composition submitted successfully"}), 200
+    except Exception as pe:
+        return jsonify({"error": str(pe)}), 500      
 
