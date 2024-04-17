@@ -1,9 +1,15 @@
 from flask import Flask
-from app import config  
+
+from app.api import setup_database
+from app.config import DB_CONFIG
 
 
-db_connection = None
-db_cursor = None
-app = Flask(__name__)
-app.config.from_object(config)
+def create_app():
+    app = Flask(__name__)
+    app.config['DB_CONFIG'] = DB_CONFIG
+    from .api import configure_routes
+    setup_database(app)
+    configure_routes(app)
+
+    return app
 
