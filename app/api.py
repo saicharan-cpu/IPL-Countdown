@@ -312,4 +312,27 @@ def submit_team_composition():
         return jsonify({"message": "Team composition submitted successfully"}), 200
     except Exception as pe:
         return jsonify({"error": str(pe)}), 500      
+    
 
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    admin_name = data.get('admin_name')
+    password = data.get('password')
+
+    try:
+
+        db_cursor.callproc('Check_Admin_Credentials', (admin_name, password))
+
+        result = next(db_cursor.stored_results()).fetchall()
+        response = result[0][0]  
+
+        if response == 'Authorized':
+            return jsonify({"message": "Login successful"}), 200
+        else:
+            return jsonify({"error": response}), 401
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
