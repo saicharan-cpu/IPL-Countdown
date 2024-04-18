@@ -279,11 +279,10 @@ def submit_engagement():
     # Extract data from the request
     data = request.get_json()
     email = data.get('email')
-    username = data.get('username')
     player_name = data.get('player_name')
 
     try:
-        db_cursor.callproc('Add_Fan_Engagement', (email, username, player_name))
+        db_cursor.callproc('Add_Fan_Engagement', (email, player_name))
         db_connection.commit()
         return jsonify({"message": "Engagement submitted successfully"}), 200
     except Exception as pe:
@@ -291,6 +290,8 @@ def submit_engagement():
             return jsonify({"error": "Player not found"}), 404
         else:
             return jsonify({"error": str(pe)}), 500
+
+        
         
 @app.route('/submit-team-composition', methods=['POST'])
 def submit_team_composition():
@@ -334,5 +335,21 @@ def login():
         else:
             return jsonify({"error": response}), 401
 
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+@app.route('/delete-player', methods=['DELETE'])
+def delete_player():
+
+    player_name = request.args.get('player_name')
+
+    try:
+        delete_query = "DELETE FROM player_info WHERE player_name = %s"
+        db_cursor.execute(delete_query, (player_name,))
+        db_connection.commit()
+
+        return jsonify({"message": f"Player '{player_name}' deleted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
